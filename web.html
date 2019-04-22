@@ -1,0 +1,62 @@
+<html>
+<h1 id="rahul">hi welcome</h1>
+
+<script src="https://s3-us-west-2.amazonaws.com/rahultestsdk/bundle.js"></script>
+
+<script  type="text/javascript"> 
+var hb = '';
+document.addEventListener("message", function(data) {
+  hb = data.data;
+});
+var x= connect();
+
+function connect() {
+  var clientID = 'webapp:' + new Date().getTime(); //needs to be unique
+  device = AwsIot.device({
+      clientId: "qaS34676UUID2D22ACD5-A739-4A01-9DF5-E7715F1B313B",
+      host: 'a29p24d9sx11dq-ats.iot.us-west-2.amazonaws.com', //can be queried using 'aws iot describe-endpoint'
+      region:'us-west-2',
+      protocol: 'wss',
+      accessKeyId:'AKIAI4RFG',
+      secretKey: '1jrORPLPCrwtvSdMvwMu'
+      //sessionToken: AWS.config.credentials.sessionToken
+  });
+  
+  device.on('connect', function () {
+      console.log("connected")
+    device.publish('myTopic', hb)
+     device.subscribe('myTopic')
+     // window.postMessage("test inside hahahhafunction");
+  });
+
+  device.on('message', function (topic, message) {
+    //console.log(message+"receivingh from IOT")
+    window.postMessage(message+''+topic);
+});
+ 
+
+}
+
+
+</script >
+<script>
+function test(){
+  
+  window.postMessage("welcome", '*')
+  //alert("test");
+}
+</script>
+
+// <script>
+// // var a="";
+// // document.addEventListener("message", function(data) {
+// //   alert(data.data);
+// //   this.a=data.data;
+// // });
+// // </script>
+
+
+
+<button onClick="test()">send</button>
+<h1>hey i am from web here</h1>
+</html>
